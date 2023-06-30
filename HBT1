@@ -1,0 +1,49 @@
+import cv2
+import numpy as np
+from time import time
+
+# Initialize variables
+heart_rate_values = []
+start_time = time()
+num_frames = 0
+
+# Create video capture object (0 represents the primary camera)
+cap = cv2.VideoCapture(0)
+
+while True:
+    # Read frame from video capture
+    ret, frame = cap.read()
+
+    if not ret:
+        break
+
+    # Convert frame to grayscale for processing
+    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Perform skin color detection or region of interest extraction
+    # You can use methods like thresholding or color-based filtering
+
+    # Process the extracted skin region
+    # Calculate heart rate based on color change or pulse detection algorithms
+
+    # Display the processed frame
+    cv2.imshow("Heart Rate Measurement", frame)
+
+    # Calculate the time elapsed and frames processed
+    elapsed_time = time() - start_time
+    num_frames += 1
+
+    # Calculate the heart rate every 10 seconds
+    if elapsed_time > 10:
+        heart_rate = len(heart_rate_values) / (elapsed_time / 60)
+        print("Heart Rate:", heart_rate, "BPM")
+        heart_rate_values.clear()
+        start_time = time()
+
+    # Press 'q' to exit the application
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Release the video capture and close the windows
+cap.release()
+cv2.destroyAllWindows()
